@@ -1,0 +1,15 @@
+{
+  "projects": {
+    "default": "pokebid-69fe3"
+  },
+  "targets": {
+    "pokebid-69fe3": {
+      "hosting": {
+        "app": [
+          "pokeauc"
+        ]
+      }
+    }
+  },
+  "etags": {}
+}

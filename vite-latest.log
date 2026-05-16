@@ -1,0 +1,26 @@
+
+> auction-room-app@1.0.0 dev
+> vite --host 127.0.0.1 --force
+
+[2m2:50:49 pm[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m Forced re-optimization of dependencies
+Port 5173 is in use, trying another one...
+Port 5174 is in use, trying another one...
+
+  [32m[1mVITE[22m v7.3.3[39m  [2mready in [0m[1m419[22m[2m[0m ms[22m
+
+  [32m➜[39m  [1mLocal[22m:   [36mhttp://127.0.0.1:[1m5175[22m/[39m
+[2m3:02:33 pm[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/App.jsx, /src/index.css[22m
+[2m3:03:24 pm[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32m✨ new dependencies optimized: [33mfirebase/auth, firebase/firestore, firebase/app[32m[39m
+[2m3:03:24 pm[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32m✨ optimized dependencies changed. reloading[39m
+[2m3:04:04 pm[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/index.css, /src/App.jsx, /src/pages/Login.jsx, /src/pages/UsernameSetup.jsx[22m
+[2m3:04:37 pm[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/App.jsx, /src/index.css[22m
+[2m3:04:39 pm[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/index.css, /src/pages/Login.jsx[22m
+[2m3:10:40 pm[22m [36m[1m[vite][22m[39m [32m.env changed, restarting server...[39m
+[2m3:10:40 pm[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m Forced re-optimization of dependencies
+[2m3:10:40 pm[22m [36m[1m[vite][22m[39m server restarted.
+[2m3:10:45 pm[22m [36m[1m[vite][22m[39m [32m.env changed, restarting server...[39m
+[2m3:10:45 pm[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m Forced re-optimization of dependencies
+[2m3:10:45 pm[22m [36m[1m[vite][22m[39m server restarted.
+[2m3:12:23 pm[22m [36m[1m[vite][22m[39m [32m.env changed, restarting server...[39m
+[2m3:12:23 pm[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m Forced re-optimization of dependencies
+[2m3:12:23 pm[22m [36m[1m[vite][22m[39m server restarted.

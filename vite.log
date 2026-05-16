@@ -1,0 +1,17 @@
+
+> auction-room-app@1.0.0 dev
+> vite --host 127.0.0.1
+
+Port 5173 is in use, trying another one...
+
+  [32m[1mVITE[22m v7.3.3[39m  [2mready in [0m[1m238[22m[2m[0m ms[22m
+
+  [32m➜[39m  [1mLocal[22m:   [36mhttp://127.0.0.1:[1m5174[22m/[39m
+[2m3:02:34 pm[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2msrc/App.jsx[22m
+[2m3:04:37 pm[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2msrc/App.jsx[22m
+[2m3:10:40 pm[22m [36m[1m[vite][22m[39m [32m.env changed, restarting server...[39m
+[2m3:10:40 pm[22m [36m[1m[vite][22m[39m server restarted.
+[2m3:10:45 pm[22m [36m[1m[vite][22m[39m [32m.env changed, restarting server...[39m
+[2m3:10:45 pm[22m [36m[1m[vite][22m[39m server restarted.
+[2m3:12:23 pm[22m [36m[1m[vite][22m[39m [32m.env changed, restarting server...[39m
+[2m3:12:23 pm[22m [36m[1m[vite][22m[39m server restarted.
