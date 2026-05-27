@@ -1,11 +1,6 @@
-import {
-  collection,
-  doc,
-  serverTimestamp,
-  setDoc,
-  Timestamp
-} from "firebase/firestore";
-import { db } from "./firebase";
+import { createAuctionRoom } from "./roomHelpers";
+import { ADMIN_UID } from "../config/admin";
+import { fetchPokemon, formatPokemonName } from "../api/pokemonApi";
 
 const sampleRooms = [
   {
@@ -26,20 +21,33 @@ function getRandomPokemonId() {
   return Math.floor(Math.random() * 151) + 1;
 }
 
-export async function seedSampleRooms() {
-  const roomPromises = sampleRooms.map((room) => {
-    const roomRef = doc(collection(db, "rooms"));
-    const auctionEndTime = Timestamp.fromDate(new Date(Date.now() + 2 * 60 * 1000));
+function getRandomPokemonIds(count) {
+  const pokemonIds = new Set();
 
-    return setDoc(roomRef, {
-      roomId: roomRef.id,
+  while (pokemonIds.size < count) {
+    pokemonIds.add(getRandomPokemonId());
+  }
+
+  return Array.from(pokemonIds);
+}
+
+export async function seedSampleRooms(adminId = "sample-admin") {
+  if (adminId !== ADMIN_UID) {
+    throw new Error("Only admin can create rooms.");
+  }
+
+  const roomPromises = sampleRooms.map((room) => {
+    const pokemonIds = getRandomPokemonIds(6);
+    const selectedPokemonId = pokemonIds[0];
+
+    return fetchPokemon(selectedPokemonId).then((pokemon) => createAuctionRoom({
       roomName: room.roomName,
-      currentBid: room.currentBid,
-      pokemonId: getRandomPokemonId(),
-      auctionEndTime,
-      auctionEnded: false,
-      createdAt: serverTimestamp()
-    });
+      adminId,
+      pokemonId: pokemon.id,
+      pokemonName: formatPokemonName(pokemon.name),
+      unsoldPokemonIds: pokemonIds.slice(1),
+      bidStep: 10
+    }));
   });
 
   await Promise.all(roomPromises);

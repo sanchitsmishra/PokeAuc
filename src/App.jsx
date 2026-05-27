@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Route, Routes } from "react-router-dom";
 import { onAuthStateChanged } from "firebase/auth";
-import { doc, getDoc } from "firebase/firestore";
+import { doc, getDoc, updateDoc } from "firebase/firestore";
 import Home from "./pages/Home";
 import AuctionRoom from "./pages/AuctionRoom";
 import Login from "./pages/Login";
@@ -29,7 +29,16 @@ function App() {
         const userSnap = await getDoc(userRef);
 
         if (userSnap.exists() && userSnap.data().username) {
-          setUserProfile(userSnap.data());
+          const profile = userSnap.data();
+
+          if (profile.credits === undefined) {
+            await updateDoc(userRef, {
+              credits: 360
+            });
+            profile.credits = 360;
+          }
+
+          setUserProfile(profile);
         } else {
           setUserProfile(null);
         }
@@ -65,7 +74,7 @@ function App() {
         path="/"
         element={
           <ProtectedRoute user={user} userProfile={userProfile} loading={loading}>
-            <Home />
+            <Home user={user} userProfile={userProfile} />
           </ProtectedRoute>
         }
       />

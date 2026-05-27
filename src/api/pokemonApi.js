@@ -1,5 +1,6 @@
-export async function fetchPokemon(pokemonId) {
-  const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonId}`);
+export async function fetchPokemon(pokemonNameOrId) {
+  const searchValue = String(pokemonNameOrId).trim().toLowerCase();
+  const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${searchValue}`);
 
   if (!response.ok) {
     throw new Error("Could not load Pokemon data.");

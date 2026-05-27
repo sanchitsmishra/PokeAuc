@@ -10,26 +10,112 @@ service cloud.firestore {
       return isSignedIn() && request.auth.uid == userId;
     }
 
+    function isAdmin() {
+      return isSignedIn() && request.auth.uid == "9WrxscYANRONmafFHyQ0IbS6Zrw1";
+    }
+
     match /users/{userId} {
-      allow read: if isOwner(userId);
-      allow create, update: if isOwner(userId);
+      allow read: if isSignedIn();
+      allow create: if isOwner(userId);
+      allow update: if isOwner(userId)
+        || (
+          isSignedIn()
+          && request.resource.data.diff(resource.data).affectedKeys()
+            .hasOnly(["credits"])
+        );
       allow delete: if false;
+
+      match /inventory/{pokemonId} {
+        allow read: if isSignedIn();
+        allow create: if isSignedIn();
+        allow update, delete: if false;
+      }
     }
 
     match /rooms/{roomId} {
       allow read: if isSignedIn();
 
-      allow create: if isSignedIn();
+      allow create: if isAdmin()
+        && request.resource.data.adminId == request.auth.uid
+        && request.resource.data.auctionStarted == false
+        && request.resource.data.pokemonId is int
+        && request.resource.data.pokemonName is string
+        && request.resource.data.currentBid == 0
+        && request.resource.data.currentBidderId == ""
+        && request.resource.data.currentBidderName == ""
+        && request.resource.data.usersRemaining == 0;
 
       allow update: if isSignedIn()
-        && request.resource.data.diff(resource.data).affectedKeys()
-          .hasOnly([
-            "currentBid",
-            "highestBidderId",
-            "highestBidderName"
-          ]);
+        && (
+          request.resource.data.diff(resource.data).affectedKeys()
+            .hasOnly([
+              "currentBid",
+              "currentBidderId",
+              "currentBidderName"
+            ])
+          || request.resource.data.diff(resource.data).affectedKeys()
+            .hasOnly(["usersRemaining"])
+          || (
+            request.resource.data.diff(resource.data).affectedKeys()
+              .hasOnly([
+                "auctionStarted",
+                "auctionEnded",
+                "auctionFinalized",
+                "currentBidderId",
+                "currentBidderName",
+                "unsoldPokemonIds"
+              ])
+            && request.resource.data.auctionStarted == false
+          )
+          || (
+            isAdmin()
+            && request.resource.data.diff(resource.data).affectedKeys()
+              .hasOnly([
+                "auctionStarted",
+                "auctionEnded",
+                "auctionFinalized",
+                "pokemonId",
+                "pokemonName",
+                "currentBid",
+                "currentBidderId",
+                "currentBidderName",
+                "unsoldPokemonIds"
+              ])
+          )
+        );
 
       allow delete: if false;
+
+      match /players/{userId} {
+        allow read: if isSignedIn();
+        allow create: if isOwner(userId)
+          && request.resource.data.keys().hasOnly([
+            "userId",
+            "username",
+            "forfeited",
+            "joinedAt"
+          ]);
+        allow update: if (
+          isOwner(userId)
+          && request.resource.data.diff(resource.data).affectedKeys()
+            .hasOnly(["username", "forfeited"])
+        ) || (
+          isAdmin()
+          && request.resource.data.diff(resource.data).affectedKeys()
+            .hasOnly(["forfeited"])
+        );
+        allow delete: if false;
+
+        match /inventory/{pokemonId} {
+          allow read, create, update, delete: if false;
+        }
+      }
+
+      match /bids/{bidId} {
+        allow read: if isSignedIn();
+        allow create: if isSignedIn();
+        allow update, delete: if false;
+      }
     }
   }
 }

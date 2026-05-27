@@ -42,6 +42,7 @@ function UsernameSetup({ user, userProfile, loading, setUserProfile }) {
         userId: user.uid,
         username: cleanUsername,
         email: user.email || "",
+        credits: 360,
         photoURL: user.photoURL || ""
       };
 
