@@ -32,18 +32,9 @@ service cloud.firestore {
       }
     }
 
-    match /rooms/{roomId} {
+    match /currentAuction/{auctionId} {
       allow read: if isSignedIn();
-
-      allow create: if isAdmin()
-        && request.resource.data.adminId == request.auth.uid
-        && request.resource.data.auctionStarted == false
-        && request.resource.data.pokemonId is int
-        && request.resource.data.pokemonName is string
-        && request.resource.data.currentBid == 0
-        && request.resource.data.currentBidderId == ""
-        && request.resource.data.currentBidderName == ""
-        && request.resource.data.usersRemaining == 0;
+      allow create: if isAdmin();
 
       allow update: if isSignedIn()
         && (
@@ -55,12 +46,16 @@ service cloud.firestore {
             ])
           || request.resource.data.diff(resource.data).affectedKeys()
             .hasOnly(["usersRemaining"])
+          || request.resource.data.diff(resource.data).affectedKeys()
+            .hasOnly(["unsoldPokemonIds"])
           || (
             request.resource.data.diff(resource.data).affectedKeys()
               .hasOnly([
                 "auctionStarted",
                 "auctionEnded",
                 "auctionFinalized",
+                "auctionEndedAt",
+                "updatedAt",
                 "currentBidderId",
                 "currentBidderName",
                 "unsoldPokemonIds"
@@ -74,17 +69,21 @@ service cloud.firestore {
                 "auctionStarted",
                 "auctionEnded",
                 "auctionFinalized",
+                "auctionEndedAt",
+                "updatedAt",
                 "pokemonId",
                 "pokemonName",
                 "currentBid",
                 "currentBidderId",
                 "currentBidderName",
-                "unsoldPokemonIds"
+                "unsoldPokemonIds",
+                "bidStep",
+                "usersRemaining"
               ])
           )
         );
 
-      allow delete: if false;
+      allow delete: if isAdmin();
 
       match /players/{userId} {
         allow read: if isSignedIn();
@@ -104,7 +103,7 @@ service cloud.firestore {
           && request.resource.data.diff(resource.data).affectedKeys()
             .hasOnly(["forfeited"])
         );
-        allow delete: if false;
+        allow delete: if isAdmin();
 
         match /inventory/{pokemonId} {
           allow read, create, update, delete: if false;
@@ -114,7 +113,31 @@ service cloud.firestore {
       match /bids/{bidId} {
         allow read: if isSignedIn();
         allow create: if isSignedIn();
-        allow update, delete: if false;
+        allow update: if false;
+        allow delete: if isAdmin();
+      }
+    }
+
+    match /auctionChat/{chatId} {
+      allow read: if isSignedIn();
+      allow create, update: if false;
+      allow delete: if false;
+
+      match /messages/{messageId} {
+        allow read: if isSignedIn();
+        allow create: if isSignedIn()
+          && request.resource.data.keys().hasOnly([
+            "username",
+            "userId",
+            "message",
+            "createdAt"
+          ])
+          && request.resource.data.userId == request.auth.uid
+          && request.resource.data.message is string
+          && request.resource.data.message.size() > 0
+          && request.resource.data.message.size() <= 280;
+        allow update: if false;
+        allow delete: if isSignedIn();
       }
     }
   }

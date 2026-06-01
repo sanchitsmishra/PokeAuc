@@ -3,7 +3,6 @@ import { Route, Routes } from "react-router-dom";
 import { onAuthStateChanged } from "firebase/auth";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import Home from "./pages/Home";
-import AuctionRoom from "./pages/AuctionRoom";
 import Login from "./pages/Login";
 import UsernameSetup from "./pages/UsernameSetup";
 import ProtectedRoute from "./components/ProtectedRoute";
@@ -75,14 +74,6 @@ function App() {
         element={
           <ProtectedRoute user={user} userProfile={userProfile} loading={loading}>
             <Home user={user} userProfile={userProfile} />
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path="/room/:roomId"
-        element={
-          <ProtectedRoute user={user} userProfile={userProfile} loading={loading}>
-            <AuctionRoom user={user} userProfile={userProfile} />
           </ProtectedRoute>
         }
       />

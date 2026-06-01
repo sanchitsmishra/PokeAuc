@@ -12,8 +12,8 @@ function Login({ user, userProfile, loading }) {
 
   if (loading) {
     return (
-      <main className="flex min-h-screen items-center justify-center px-4">
-        <p className="text-sm text-slate-600">Loading...</p>
+      <main className="flex min-h-screen items-center justify-center bg-black px-4">
+        <p className="text-sm text-slate-300">Loading...</p>
       </main>
     );
   }
@@ -49,10 +49,12 @@ function Login({ user, userProfile, loading }) {
   };
 
   return (
-    <main className="flex min-h-screen items-center justify-center px-4">
-      <section className="w-full max-w-md rounded-lg bg-white p-6 shadow-sm">
-        <h1 className="text-2xl font-bold text-slate-900">Login</h1>
-        <p className="mt-2 text-sm text-slate-600">
+    <main className="flex min-h-screen items-center justify-center bg-gradient-to-b from-black via-neutral-950 to-black px-4 text-slate-100">
+      <section className="w-full max-w-md rounded-2xl border border-[#2A75BB]/55 bg-neutral-900 p-6 shadow-xl shadow-[#2A75BB]/25">
+        <h1 className="text-4xl font-black tracking-wide text-[#FFCB05] [text-shadow:0_0_8px_rgba(255,203,5,0.65),2px_2px_0_rgba(42,117,187,0.9)]">
+          Poke<span className="text-[#7fc2ff]">Auc</span>
+        </h1>
+        <p className="mt-3 text-sm text-slate-300">
           Sign in with Google to continue to Auction Room.
         </p>
 
@@ -60,12 +62,12 @@ function Login({ user, userProfile, loading }) {
           type="button"
           onClick={loginWithGoogle}
           disabled={isSigningIn}
-          className="mt-6 w-full rounded-md bg-slate-900 px-4 py-3 font-medium text-white transition hover:bg-slate-700 disabled:cursor-not-allowed disabled:bg-slate-400"
+          className="mt-6 w-full rounded-md bg-[#FFCB05] px-4 py-3 font-semibold text-black shadow-md shadow-[#FFCB05]/30 transition hover:bg-yellow-300 disabled:cursor-not-allowed disabled:bg-yellow-200"
         >
           {isSigningIn ? "Signing in..." : "Continue with Google"}
         </button>
 
-        {error && <p className="mt-4 text-sm text-red-600">{error}</p>}
+        {error && <p className="mt-4 text-sm text-red-400">{error}</p>}
       </section>
     </main>
   );

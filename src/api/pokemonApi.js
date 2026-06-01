@@ -12,7 +12,19 @@ export async function fetchPokemon(pokemonNameOrId) {
     id: pokemon.id,
     name: pokemon.name,
     image: pokemon.sprites.front_default,
-    types: pokemon.types.map((typeItem) => typeItem.type.name)
+    types: pokemon.types.map((typeItem) => typeItem.type.name),
+    stats: {
+      hp: pokemon.stats.find((item) => item.stat.name === "hp")?.base_stat ?? 0,
+      attack:
+        pokemon.stats.find((item) => item.stat.name === "attack")?.base_stat ?? 0,
+      defense:
+        pokemon.stats.find((item) => item.stat.name === "defense")?.base_stat ?? 0,
+      specialAttack:
+        pokemon.stats.find((item) => item.stat.name === "special-attack")?.base_stat ?? 0,
+      specialDefense:
+        pokemon.stats.find((item) => item.stat.name === "special-defense")?.base_stat ?? 0,
+      speed: pokemon.stats.find((item) => item.stat.name === "speed")?.base_stat ?? 0
+    }
   };
 }
 
